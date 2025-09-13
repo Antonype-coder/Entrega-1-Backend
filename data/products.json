@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "iPhone 15",
+    "description": "Último modelo de Apple",
+    "code": "IPH15",
+    "price": 5000,
+    "status": true,
+    "stock": 10,
+    "category": "Smartphones",
+    "thumbnails": [
+      "iphone15.png"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "MacBook Pro 2023",
+    "description": "Laptop de alto rendimiento",
+    "code": "MAC2023",
+    "price": 12000,
+    "status": true,
+    "stock": 5,
+    "category": "Laptops",
+    "thumbnails": [
+      "macbookpro2023.png"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "iPad Air",
+    "description": "Tableta ligera y potente",
+    "code": "IPAD2023",
+    "price": 3500,
+    "status": true,
+    "stock": 8,
+    "category": "Tablets",
+    "thumbnails": [
+      "ipadair.png"
+    ]
+  }
+]
