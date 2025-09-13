@@ -10,14 +10,11 @@ const cartManager = new CartManager("./data/carts.json");
 
 app.get("/", (req, res) => res.send("Servidor funcionando 🚀"));
 
-// --------------------- PRODUCTS ---------------------
-// GET all products
 app.get("/api/products", async (req, res) => {
   const products = await productManager.getProducts();
   res.json(products);
 });
 
-// GET product by ID
 app.get("/api/products/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const product = await productManager.getProductById(id);
@@ -25,13 +22,11 @@ app.get("/api/products/:id", async (req, res) => {
   res.json(product);
 });
 
-// POST new product
 app.post("/api/products", async (req, res) => {
   const newProduct = await productManager.addProduct(req.body);
   res.json({ message: "Producto agregado", product: newProduct });
 });
 
-// PUT update product
 app.put("/api/products/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const updatedProduct = await productManager.updateProduct(id, req.body);
@@ -39,7 +34,6 @@ app.put("/api/products/:id", async (req, res) => {
   res.json({ message: "Producto actualizado", product: updatedProduct });
 });
 
-// DELETE product
 app.delete("/api/products/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const deleted = await productManager.deleteProduct(id);
@@ -47,14 +41,11 @@ app.delete("/api/products/:id", async (req, res) => {
   res.json({ message: "Producto eliminado" });
 });
 
-// --------------------- CARTS ---------------------
-// POST create cart
 app.post("/api/carts", async (req, res) => {
   const cart = await cartManager.createCart();
   res.json({ message: "Carrito creado", cart });
 });
 
-// GET cart by ID
 app.get("/api/carts/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const cart = await cartManager.getCartById(id);
@@ -62,7 +53,6 @@ app.get("/api/carts/:id", async (req, res) => {
   res.json(cart);
 });
 
-// POST add product to cart
 app.post("/api/carts/:cid/product/:pid", async (req, res) => {
   const cid = parseInt(req.params.cid);
   const pid = parseInt(req.params.pid);
@@ -72,7 +62,6 @@ app.post("/api/carts/:cid/product/:pid", async (req, res) => {
   res.json({ message: "Producto agregado al carrito", cart });
 });
 
-// DELETE cart by ID
 app.delete("/api/carts/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   const deleted = await cartManager.deleteCart(id);
@@ -80,5 +69,4 @@ app.delete("/api/carts/:id", async (req, res) => {
   res.json({ message: `Carrito ${id} eliminado correctamente` });
 });
 
-// --------------------- SERVER ---------------------
 app.listen(8080, () => console.log("Servidor corriendo en http://localhost:8080"));
