@@ -1,16 +1,13 @@
 [
   {
     "id": 1,
-    "title": "iPhone 16",
+    "title": "iPhone 15",
     "description": "Último modelo de Apple",
     "code": "IPH15",
-    "price": 50,
+    "price": 5000,
     "status": true,
-    "stock": 5,
-    "category": "Smartphones",
-    "thumbnails": [
-      "iphone15.png"
-    ]
+    "stock": 10,
+    "category": "Smartphones"
   },
   {
     "id": 2,
@@ -20,31 +17,27 @@
     "price": 12000,
     "status": true,
     "stock": 5,
-    "category": "Laptops",
-    "thumbnails": [
-      "macbookpro2023.png"
-    ]
+    "category": "Laptops"
   },
   {
     "id": 3,
+    "title": "iPad Air",
+    "description": "Tableta ligera y potente",
+    "code": "IPAD2023",
+    "price": 3500,
     "status": true,
-    "thumbnails": [],
-    "title": "iPhone 17",
-    "description": "Último modelo de Apple",
-    "code": "IPH15",
-    "price": 5000,
-    "stock": 10,
-    "category": "Smartphones"
+    "stock": 8,
+    "category": "Tablets"
   },
   {
     "id": 4,
     "status": true,
     "thumbnails": [],
-    "title": "iPhone 17",
-    "description": "Último modelo de Apple",
-    "code": "IPH15",
-    "price": 5000,
-    "stock": 10,
-    "category": "Smartphones"
+    "title": "Apple Watch Series 9",
+    "description": "Reloj inteligente de última generación de Apple con pantalla Retina y sensor de oxígeno.",
+    "code": "AWS9",
+    "price": 2000,
+    "stock": 15,
+    "category": "Wearables"
   }
 ]
