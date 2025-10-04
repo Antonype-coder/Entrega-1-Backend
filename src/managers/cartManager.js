@@ -45,4 +45,12 @@ export default class CartManager {
     await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
     return carts[cartIndex];
   }
+
+  async deleteCart(id) {
+    const carts = await this.getCarts();
+    const newCarts = carts.filter((c) => c.id !== id);
+    if (carts.length === newCarts.length) return false;
+    await fs.writeFile(this.path, JSON.stringify(newCarts, null, 2));
+    return true;
+  }
 }

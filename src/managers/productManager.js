@@ -20,13 +20,30 @@ export default class ProductManager {
   }
 
   async addProduct(product) {
+    const { title, description, code, price, stock, category } = product;
+    
+    if (!title || !description || !code || !price || !stock || !category) {
+      throw new Error("Faltan campos obligatorios");
+    }
+
     const products = await this.getProducts();
+    
+    if (products.some(p => p.code === code)) {
+      throw new Error("El código del producto ya existe");
+    }
+
     const newProduct = {
       id: products.length > 0 ? products[products.length - 1].id + 1 : 1,
+      title,
+      description,
+      code,
+      price: Number(price),
       status: true,
-      thumbnails: [],
-      ...product,
+      stock: Number(stock),
+      category,
+      thumbnails: product.thumbnails || []
     };
+
     products.push(newProduct);
     await fs.writeFile(this.path, JSON.stringify(products, null, 2));
     return newProduct;
@@ -36,7 +53,10 @@ export default class ProductManager {
     const products = await this.getProducts();
     const index = products.findIndex((p) => p.id === id);
     if (index === -1) return null;
-    products[index] = { ...products[index], ...updatedData, id };
+    
+    delete updatedData.id;
+    
+    products[index] = { ...products[index], ...updatedData };
     await fs.writeFile(this.path, JSON.stringify(products, null, 2));
     return products[index];
   }

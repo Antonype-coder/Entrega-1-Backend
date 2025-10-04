@@ -5,16 +5,16 @@
             <input type="text" name="title" class="form-control mb-2" placeholder="Título" required>
             <input type="text" name="description" class="form-control mb-2" placeholder="Descripción" required>
             <input type="text" name="code" class="form-control mb-2" placeholder="Código" required>
-            <input type="number" name="price" class="form-control mb-2" placeholder="Precio" required>
+            <input type="number" name="price" class="form-control mb-2" placeholder="Precio" step="0.01" required>
             <input type="number" name="stock" class="form-control mb-2" placeholder="Stock" required>
             <input type="text" name="category" class="form-control mb-2" placeholder="Categoría" required>
             <button type="submit" class="btn btn-success w-100">Agregar</button>
         </form>
-        <a href="/" class="btn btn-secondary w-100">Volver</a>
+        <a href="/home" class="btn btn-secondary w-100">Volver al Home</a>
     </div>
 
     <div class="col-md-8">
-        <h4>Productos</h4>
+        <h4>Productos en Tiempo Real</h4>
         <div id="productsList">
             {{#each products}}
             <div class="card mb-2" id="product-{{this.id}}">
@@ -22,6 +22,7 @@
                     <div>
                         <h6 class="card-title">{{this.title}}</h6>
                         <p class="card-text mb-0">${{this.price}} | Stock: {{this.stock}}</p>
+                        <small class="text-muted">{{this.category}}</small>
                     </div>
                     <button class="btn btn-danger btn-sm" onclick="deleteProduct({{this.id}})">Eliminar</button>
                 </div>

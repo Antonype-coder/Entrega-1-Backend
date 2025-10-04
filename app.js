@@ -1,61 +1,59 @@
 import express from "express";
+import { engine } from "express-handlebars";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import exphbs from "express-handlebars";
-import path from "path";
-import { fileURLToPath } from "url";
-import ProductManager from "./managers/productManager.js";
-import viewsRouter from "./routes/viewsRouter.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import ProductManager from "./src/managers/productManager.js";
+import productsRouter from "./src/routes/products.router.js";
+import cartsRouter from "./src/routes/carts.router.js";
+import viewsRouter from "./src/routes/views.router.js";
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
-
 const productManager = new ProductManager("./data/products.json");
 
-app.engine("handlebars", exphbs.engine());
+app.engine("handlebars", engine({
+  defaultLayout: "main",
+  layoutsDir: "./views/layouts"
+}));
 app.set("view engine", "handlebars");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", "./views");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
 
 app.use("/", viewsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
 
-app.post("/api/products", async (req, res) => {
-  const newProduct = await productManager.addProduct(req.body);
-  const products = await productManager.getProducts();
-  io.emit("productsUpdated", products);
-  res.json({ message: "Producto agregado", product: newProduct });
-});
+io.on("connection", (socket) => {
+  console.log("Cliente conectado:", socket.id);
 
-app.delete("/api/products/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  const deleted = await productManager.deleteProduct(id);
-  const products = await productManager.getProducts();
-  io.emit("productsUpdated", products);
-  res.json({ message: "Producto eliminado" });
-});
-
-io.on("connection", async (socket) => {
-  console.log("Cliente conectado");
-  const products = await productManager.getProducts();
-  socket.emit("productsUpdated", products);
-  
   socket.on("createProduct", async (productData) => {
-    await productManager.addProduct(productData);
-    const updatedProducts = await productManager.getProducts();
-    io.emit("productsUpdated", updatedProducts);
+    try {
+      const newProduct = await productManager.addProduct(productData);
+      io.emit("productAdded", newProduct);
+    } catch (error) {
+      socket.emit("error", { message: "Error al crear producto: " + error.message });
+    }
   });
 
   socket.on("deleteProduct", async (productId) => {
-    await productManager.deleteProduct(parseInt(productId));
-    const updatedProducts = await productManager.getProducts();
-    io.emit("productsUpdated", updatedProducts);
+    try {
+      const deleted = await productManager.deleteProduct(parseInt(productId));
+      if (deleted) {
+        io.emit("productDeleted", parseInt(productId));
+      } else {
+        socket.emit("error", { message: "Producto no encontrado" });
+      }
+    } catch (error) {
+      socket.emit("error", { message: "Error al eliminar producto" });
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Cliente desconectado:", socket.id);
   });
 });
 
