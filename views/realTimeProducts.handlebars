@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-4">
+        <h4>Agregar Producto</h4>
+        <form id="productForm" class="mb-4">
+            <input type="text" name="title" class="form-control mb-2" placeholder="Título" required>
+            <input type="text" name="description" class="form-control mb-2" placeholder="Descripción" required>
+            <input type="text" name="code" class="form-control mb-2" placeholder="Código" required>
+            <input type="number" name="price" class="form-control mb-2" placeholder="Precio" required>
+            <input type="number" name="stock" class="form-control mb-2" placeholder="Stock" required>
+            <input type="text" name="category" class="form-control mb-2" placeholder="Categoría" required>
+            <button type="submit" class="btn btn-success w-100">Agregar</button>
+        </form>
+        <a href="/" class="btn btn-secondary w-100">Volver</a>
+    </div>
+
+    <div class="col-md-8">
+        <h4>Productos</h4>
+        <div id="productsList">
+            {{#each products}}
+            <div class="card mb-2" id="product-{{this.id}}">
+                <div class="card-body d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">{{this.title}}</h6>
+                        <p class="card-text mb-0">${{this.price}} | Stock: {{this.stock}}</p>
+                    </div>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct({{this.id}})">Eliminar</button>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>

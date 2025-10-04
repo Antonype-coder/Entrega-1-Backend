@@ -1,0 +1,15 @@
+<h1 class="mb-4">Productos</h1>
+
+<div class="row">
+    {{#each products}}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">${{this.price}}</p>
+                <span class="badge bg-secondary">{{this.category}}</span>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
